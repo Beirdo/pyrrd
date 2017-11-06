@@ -82,7 +82,7 @@ def validateReST(text):
     """
     if hasDocutils():
         return _validateReST(text)
-    print " *** No docutils; can't validate ReST."
+    print(" *** No docutils; can't validate ReST.")
     return ''
 
 
@@ -102,7 +102,7 @@ def catReST(*args, **kwds):
             f.close()
             tmp.append('\n\n')
         else:
-            print "Warning: '%s' not a legal ReST filename."
+            print("Warning: '%s' not a legal ReST filename.")
             tmp.append(arg)
     if len(tmp) == 1:
         res = tmp[0]
@@ -118,7 +118,7 @@ def catReST(*args, **kwds):
         f.close()
         report = validateReST(res)
         if report:
-            print report
+            print(report)
             if stop_on_errors:
                 print 'ReST validation error'
                 print
