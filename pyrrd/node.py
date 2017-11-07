@@ -3,6 +3,8 @@ This module's classes are used to represent RRD data in XML format. The mapper
 module uses this format to establish a relationship between RRD files (and
 their exports) and Python objects.
 """
+
+
 class XMLNode(object):
     """
     A base class. Not used directly.
@@ -23,7 +25,7 @@ class XMLNode(object):
         """
         """
         node = self.tree.find(attrName)
-        if node != None:
+        if node is not None:
             return node.text.strip()
         raise ValueError()
 
@@ -74,7 +76,7 @@ class RRAXMLNode(XMLNode):
         super(RRAXMLNode, self).__init__(tree, attributes)
         self.database = None
         xff = self.tree.find('params').find('xff')
-        if xff!=None:
+        if xff is not None:
             xff = float(xff.text)
             self.attributes["xff"] = xff
 

@@ -16,7 +16,7 @@ Create an RRD file programmatically::
     >>> roundRobinArchives.append(RRA(cf='AVERAGE', xff=0.5, steps=1, rows=24))
     >>> roundRobinArchives.append(RRA(cf='AVERAGE', xff=0.5, steps=6, rows=10))
 
-    >>> myRRD = RRD(rrdfile, ds=dataSources, rra=roundRobinArchives, 
+    >>> myRRD = RRD(rrdfile, ds=dataSources, rra=roundRobinArchives,
     ...     start=920804400, backend=bindings)
     >>> myRRD.create()
 
@@ -95,7 +95,7 @@ meansure::
     >>> line1 = LINE(value=100, color='#990000', legend='Maximum Allowed')
     >>> area1 = AREA(defObj=cdef3, color='#006600', legend='Good Speed')
     >>> area2 = AREA(defObj=cdef2, color='#CC6633', legend='Too Fast')
-    >>> line2 = LINE(defObj=vdef2, color='#000099', legend='My Average', 
+    >>> line2 = LINE(defObj=vdef2, color='#000099', legend='My Average',
     ...     stack=True)
     >>> gprint1 = GPRINT(vdef2, '%6.2lf kph')
 
@@ -157,8 +157,8 @@ def _cmd(command, args, debug=False):
     # right now)
     args = [str(x) for x in args]
     if debug:
-        print "function:", function
-        print "args:", args
+        print("function:", function)
+        print("args:", args)
     return function(*args)
 
 
@@ -277,7 +277,7 @@ def fetch(filename, parameters, useBindings=False):
     >>> results = fetch(rrdfile, parameters, useBindings=False)
     >>> sorted(results["ds"].keys())
     ['speed']
-    
+
     >>> os.unlink(rrdfile)
     >>> os.path.exists(rrdfile)
     False
@@ -400,8 +400,8 @@ def graph(filename, parameters):
 
     >>> parameters = [
     ...   '--start',
-    ...   '920804400', 
-    ...   '--end', 
+    ...   '920804400',
+    ...   '--end',
     ...   '920808000',
     ...   '--vertical-label',
     ...   'km/h',
@@ -444,8 +444,8 @@ def prepareObject(function, obj):
     if function == 'create':
         validParams = ['start', 'step']
         params = buildParameters(obj, validParams)
-        params += [unicode(x) for x in obj.ds]
-        params += [unicode(x) for x in obj.rra]
+        params += [str(x) for x in obj.ds]
+        params += [str(x) for x in obj.rra]
         return (obj.filename, params)
 
     if function == 'update':
@@ -478,7 +478,7 @@ def prepareObject(function, obj):
             'force_rules_legend', 'tabwidth', 'base', 'color', 'imgformat',
             'slope_mode']
         params = buildParameters(obj, validParams)
-        params += [unicode(x) for x in obj.data]
+        params += [str(x) for x in obj.data]
         return (obj.filename, params)
 
 

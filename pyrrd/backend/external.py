@@ -16,7 +16,7 @@ def _cmd(command, args=""):
                     close_fds=close_fds)
     (stdout, stderr) = process.communicate()
     if stderr:
-        print command
+        print(command)
         #import pdb;pdb.set_trace()
         raise ExternalCommandError(stderr.strip())
     if process.returncode != 0:
@@ -260,8 +260,8 @@ def prepareObject(function, obj):
     if function == 'create':
         validParams = ['start', 'step']
         params = common.buildParameters(obj, validParams)
-        data = [unicode(x) for x in obj.ds]
-        data += [unicode(x) for x in obj.rra]
+        data = [str(x) for x in obj.ds]
+        data += [str(x) for x in obj.rra]
         return (obj.filename, params + data)
 
     if function == 'update':
@@ -295,7 +295,7 @@ def prepareObject(function, obj):
             'force_rules_legend', 'tabwidth', 'base', 'color', 'imgformat',
             'slope_mode']
         params = common.buildParameters(obj, validParams)
-        data = [unicode(x) for x in obj.data]
+        data = [str(x) for x in obj.data]
         return (obj.filename, params + data)
 
 

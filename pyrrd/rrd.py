@@ -18,10 +18,9 @@ def validateDSName(name):
     ValueError: Names must be shorter than 19 characters
     """
     if name != re.sub('[^A-Za-z0-9_]', '', name):
-        raise ValueError, "Names must consist only of the characters " + \
-            "A-Z, a-z, 0-9, _"
+        raise ValueError("Names must consist only of the characters " + "A-Z, a-z, 0-9, _")
     if len(name) > 18:
-        raise ValueError, "Names must be shorter than 19 characters"
+        raise ValueError("Names must be shorter than 19 characters")
 
 
 def validateDSType(dsType):
@@ -38,8 +37,7 @@ def validateDSType(dsType):
         return dsType
     else:
         valid = ' '.join(valid)
-        raise ValueError, 'A data source type must be one of the ' + \
-            'following: %s' % valid
+        raise ValueError('A data source type must be one of the ' + 'following: %s' % valid)
 
 
 def validateRRACF(consolidationFunction):
@@ -60,8 +58,7 @@ def validateRRACF(consolidationFunction):
         return cf
     else:
         valid = ' '.join(valid)
-        raise ValueError, "An RRA's consolidation function must be " + \
-            "one of the following: %s" % valid
+        raise ValueError("An RRA's consolidation function must be " + "one of the following: %s" % valid)
 
 
 class RRD(mapper.RRDMapper):
@@ -99,8 +96,8 @@ class RRD(mapper.RRDMapper):
     def __init__(self, filename=None, start=None, step=300, ds=None, rra=None,
                  mode="w", backend=external):
         super(RRD, self).__init__()
-        if filename == None:
-            raise ValueError, "You must provide a filename."
+        if filename is None:
+            raise ValueError("You must provide a filename.")
         self.filename = filename
         if not start or isinstance(start, datetime):
             self.start = util.epoch(start)
@@ -161,9 +158,9 @@ class RRD(mapper.RRDMapper):
         ('somefile', ['--template', u'ds0', '1000000:value', '1000001:anothervalue'])
         >>> my_rrd.values = []
         """
-        values = ':'.join([unicode(x) for x in values])
+        values = ':'.join([str(x) for x in values])
         self.values.append((timeOrData, values))
-        self.lastupdate = float(unicode(timeOrData).split(":")[0])
+        self.lastupdate = float(str(timeOrData).split(":")[0])
 
     # for backwards compatibility
     bufferValues = bufferValue
@@ -171,12 +168,12 @@ class RRD(mapper.RRDMapper):
     def create(self, debug=False):
         data = self.backend.prepareObject('create', self)
         if debug:
-            print data
+            print(data)
         self.backend.create(*data)
 
     # XXX this can be uncommented when we're doing full database imports with
     # the loads method and storing those values in the python objects
-    #def write(self, filename, debug=False):
+    # def write(self, filename, debug=False):
     #    self.filename = filename
     #    if not os.path.exists(filename):
     #        self.create(debug)
@@ -195,7 +192,7 @@ class RRD(mapper.RRDMapper):
         if self.values:
             data = self.backend.prepareObject('update', self)
             if debug:
-                print data
+                print(data)
             if not dryRun:
                 self.backend.update(debug=debug, *data)
                 self.values = []
@@ -295,7 +292,7 @@ class RRD(mapper.RRDMapper):
         """
         # XXX this should only be enabled once we have the data from the loaded
         # RRD file updating the RRD object
-        #if filename:
+        # if filename:
         #    self.filename = filename
 
         # this re-maps all attributes of this object (self) based on what is
@@ -340,10 +337,10 @@ class DataSource(mapper.DSMapper):
     def __init__(self, dsName=None, dsType=None, heartbeat=None, minval='U',
                  maxval='U', rpn=None):
         super(DataSource, self).__init__()
-        if dsName == None:
-            raise ValueError, "You must provide a name for the data source."
-        if dsType == None:
-            raise ValueError, "You must provide a type for the data source."
+        if dsName is None:
+            raise ValueError("You must provide a name for the data source.")
+        if dsType is None:
+            raise ValueError("You must provide a type for the data source.")
         self.name = dsName
         self.type = dsType
         self.minimal_heartbeat = heartbeat
@@ -414,9 +411,9 @@ class RRA(mapper.RRAMapper):
                  threshold=None, window_length=None, cdpPrepObject=None,
                  databaseObject=None):
         super(RRA, self).__init__()
-        if cf == None:
+        if cf is None:
             msg = "You must provide a value for the consolidation function."
-            raise ValueError, msg
+            raise ValueError(msg)
         self.cf = cf
         self.xff = xff
         self.steps = steps
@@ -447,7 +444,7 @@ class RRA(mapper.RRAMapper):
         elif self.cf == 'HWPREDICT':
             tail += ':%s:%s:%s:%s' % (
                 self.rows, self.alpha, self.beta, self.seasonal_period)
-            if self.rra_num != None:
+            if self.rra_num is not None:
                 tail += ':%s' % (self.rra_num)
         elif self.cf == 'SEASONAL':
             tail += ':%s:%s:%s' % (
