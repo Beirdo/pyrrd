@@ -35,4 +35,5 @@ setup(
         "Topic :: System :: Systems Administration",
         "License :: OSI Approved :: BSD License",
        ],
+    install_requires=['six']
     )
